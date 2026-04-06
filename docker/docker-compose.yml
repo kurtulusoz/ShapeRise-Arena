@@ -6,12 +6,10 @@
 #   docker-compose down               → stop server
 # ============================================================
 
-version: '3.9'
-
 services:
   shaperise-server:
     build:
-      context: ..                         # project root (has server-build/)
+      context: ./tools/                         # project root (has server-build/)
       dockerfile: docker/Dockerfile
     image: shaperise-server:latest
     container_name: shaperise-arena
