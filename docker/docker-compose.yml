@@ -1,0 +1,61 @@
+# ============================================================
+# ShapeRise Arena – docker-compose.yml
+# Usage:
+#   docker-compose up -d              → start server
+#   docker-compose logs -f            → live logs
+#   docker-compose down               → stop server
+# ============================================================
+
+version: '3.9'
+
+services:
+  shaperise-server:
+    build:
+      context: ..                         # project root (has server-build/)
+      dockerfile: docker/Dockerfile
+    image: shaperise-server:latest
+    container_name: shaperise-arena
+    restart: unless-stopped
+
+    # KCP Transport: UDP only
+    ports:
+      - "${SERVER_PORT:-7777}:7777/udp"
+
+    volumes:
+      - server-logs:/app/logs
+
+    environment:
+      # Game settings (read by server on startup via -args or env)
+      MAX_PLAYERS:       "${MAX_PLAYERS:-4}"
+      BOT_FILL_TIMEOUT:  "${BOT_FILL_TIMEOUT:-60}"
+      HEIGHT_TARGET:     "${HEIGHT_TARGET:-1000}"
+      GAME_MODE:         "${GAME_MODE:-FFA}"         # FFA | TEAM2V2
+
+    networks:
+      - shaperise-net
+
+    # Resource limits (prevent runaway CPU/RAM on shared host)
+    deploy:
+      resources:
+        limits:
+          cpus:   '1.0'
+          memory: 512M
+        reservations:
+          cpus:   '0.25'
+          memory: 128M
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# ── Networking ──────────────────────────────────────────────
+networks:
+  shaperise-net:
+    driver: bridge
+
+# ── Persistent volumes ──────────────────────────────────────
+volumes:
+  server-logs:
+    driver: local

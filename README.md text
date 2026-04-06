@@ -1,0 +1,49 @@
+
+## 3. Teknik Kararlar (Değiştirilmemeli)
+- Scripting Backend: İlk etapta **Mono** (Docker imajı daha küçük ve stabil)
+- Transport: **KCP** (düşük latency)
+- Physics: 2D → Merge için custom lightweight check önerilir (ileride)
+- Spawn: Server authoritative
+- Height Sync: SyncVar<float> currentHeight + hedef threshold
+- Bot: Grid-based en yakın uygun stack bulma + random error injection (%15-20)
+
+## 4. Oyun Mekaniği Detayları
+- Şekiller: Triangle, Square, Rectangle, Circle
+- Renkler: Red, Blue, Green, Yellow, Purple
+- Birleştirme: Aynı shape + aynı color → puan + height artışı + görsel yükselme efekti
+- Combo: Art arda birleştirmelerde multiplier + Frenzy modu
+- Power-up’lar: Nadir düşer (anlık height boost, renk temizleme vs.)
+
+## 5. Özellik Listesi (Öncelik Sırası)
+1. Docker + Mirror Headless Hello World (bağlantı testi)
+2. Shape spawn & drop (Server auth)
+3. Merge detection & height calculation
+4. Height Bar + görsel kule yükselişi
+5. AI Bot (60s timer + basic decision)
+6. Deep Linking (room join)
+7. Lobby & matchmaking
+8. Polish (particle, sound, combo)
+
+## 6. Claude ile Çalışma Kuralları
+- Her zaman bu blueprint’e sadık kal.
+- Büyük feature’lar için önce “Detailed Implementation Plan” çıkar.
+- Kod verdikten sonra “Next Steps” ve “Potential Issues” listesi ver.
+- Değişiklik önerisi yapacaksan önce onay al.
+
+**Versiyon:** 1.0 (06 Nisan 2026)
+**Lead Architect:** Grok (xAI) + Sen (Senior Dev)
+
+Bu dosyayı Claude Projects’ine veya her yeni sohbete yükle. Böylece Claude sürekli bağlamı hatırlar.
+
+---
+
+**Nasıl kullanacaksın?**
+
+1. Claude Opus 4.6’yı aç (Claude Code veya web).
+2. Yeni Project oluştur → blueprint.md’yi yükle.
+3. İlk mesaj olarak yukarıdaki **Ana Prompt**’u yapıştır.
+4. Sonra “Şimdi ilk iş olarak Docker + Mirror Hello World altyapısını kuralım” diye devam et.
+
+İstersen bu blueprint’i genişletelim (mesela daha detaylı merge logic, anti-cheat kuralları, monetization planı vs. ekleyeyim).
+
+Hazır mısın? Hangi kısmı önce Claude Opus’a yaptırmak istiyorsun? (Docker tarafı mı, Bot AI mi, yoksa merge sistemi mi?) Direkt söyle, prompt’u o göreve özel revize edeyim. 🚀
